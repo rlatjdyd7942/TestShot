@@ -1,0 +1,8 @@
+D:\dev\TestShot\TestShot\bin\Debug\TestShot.exe
+D:\dev\TestShot\TestShot\bin\Debug\TestShot.pdb
+D:\dev\TestShot\TestShot\obj\Debug\TestShot.Form1.resources
+D:\dev\TestShot\TestShot\obj\Debug\TestShot.Properties.Resources.resources
+D:\dev\TestShot\TestShot\obj\Debug\TestShot.csproj.GenerateResource.Cache
+D:\dev\TestShot\TestShot\obj\Debug\TestShot.exe
+D:\dev\TestShot\TestShot\obj\Debug\TestShot.pdb
+D:\dev\TestShot\TestShot\obj\Debug\TestShot.csprojResolveAssemblyReference.cache

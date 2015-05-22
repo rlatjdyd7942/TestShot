@@ -1,0 +1,7 @@
+D:\dev\TestShot\TestShot\bin\Release\TestShot.exe
+D:\dev\TestShot\TestShot\bin\Release\TestShot.pdb
+D:\dev\TestShot\TestShot\obj\Release\TestShot.Form1.resources
+D:\dev\TestShot\TestShot\obj\Release\TestShot.Properties.Resources.resources
+D:\dev\TestShot\TestShot\obj\Release\TestShot.csproj.GenerateResource.Cache
+D:\dev\TestShot\TestShot\obj\Release\TestShot.exe
+D:\dev\TestShot\TestShot\obj\Release\TestShot.pdb

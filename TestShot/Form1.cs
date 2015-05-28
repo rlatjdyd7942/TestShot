@@ -29,6 +29,7 @@ namespace TestShot
             drawer = new TestShotDrawer(720, 1280, dateTimePicker.Value, timePicker.Value);
             examplePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             setImage(@"img/adImage.png");
+            loadCompany();
             loadLeftCost();
             loadRightCost();
             List<String> adTypeSource = new List<String> {
@@ -63,23 +64,31 @@ namespace TestShot
         private Bitmap target;
         private Bitmap adImage;
         private String adFileName;
+        private String[] adFileNames;
 
         private const int targetWidth = 720;
         private const int targetHeight = 1280;
 
+        private void save(String fileName)
+        {
+            using (Graphics g = Graphics.FromImage(target))
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                Image img = drawer.getTestShot();
+                g.DrawImage(img, new Rectangle(0, 0, targetWidth, targetHeight));
+                target.Save(fileName);
+            }
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
-            String newFileName = "result_" + Path.GetFileNameWithoutExtension(adFileName) + ".png";
+            DateTime date = dateTimePicker.Value;
+            DateTime time = timePicker.Value;
+            String newFileName = "Screenshot_" + date.ToString("yyyy-MM-dd") + "-" + time.ToString("hh-mm-ss") + ".png";
             saveFileDialog.FileName = newFileName;
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                using (Graphics g = Graphics.FromImage(target))
-                {
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                    Image img = drawer.getTestShot();
-                    g.DrawImage(img, new Rectangle(0, 0, targetWidth, targetHeight));
-                    target.Save(saveFileDialog.FileName);
-                }
+                save(saveFileDialog.FileName);
             }
         }
 
@@ -132,6 +141,17 @@ namespace TestShot
             loadRightCost();
         }
 
+        private void loadCompany()
+        {
+            if (SktRadioButton.Checked)
+                drawer.setCompany(0);
+            else if (KtRadioButton.Checked)
+                drawer.setCompany(1);
+            else
+                drawer.setCompany(2);
+            refreshImage();
+        }
+
         private void loadLeftCost()
         {
             int cost = 0;
@@ -162,6 +182,53 @@ namespace TestShot
         {
             drawer.setArrowUpVisible(showArrowCheckBox.Checked);
             refreshImage();
+        }
+
+        private void saveMultiFileButton_Click(object sender, EventArgs e)
+        {
+            if (saveMultiFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                DateTime date = dateTimePicker.Value;
+                DateTime time = timePicker.Value;
+                String imageName = null;
+                String resultName = null;
+                for (int i = 0; i < adFileNames.Length; ++i)
+                {
+                    imageName = adFileNames[i];
+                    drawer.setDate(date);
+                    drawer.setTime(time);
+                    setImage(imageName);
+                    resultName = saveMultiFileDialog.SelectedPath + "\\Screenshot_" + date.ToString("yyyy-MM-dd") + "-" + time.ToString("hh-mm-ss") + ".png";
+                    Console.WriteLine(resultName);
+                    save(resultName);
+                    date = date.AddMinutes(15);
+                    time = time.AddMinutes(15);
+                }
+            }
+        }
+
+        private void openMultiFileButton_Click(object sender, EventArgs e)
+        {
+            if (openMultiFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                adFileNames = openMultiFileDialog.FileNames;
+                Console.WriteLine("adFileName.Length : " + adFileNames.Length);
+            }
+        }
+
+        private void SktRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            loadCompany();
+        }
+
+        private void KtRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            loadCompany();
+        }
+
+        private void LgRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            loadCompany();
         }
     }
 }

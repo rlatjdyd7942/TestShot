@@ -15,6 +15,30 @@ namespace TestShot
         {
             init(width, height, date, time);
         }
+
+        private class NotiBar
+        {
+            public NotiBar(Image notiBar, Font font, Point point, int color)
+            {
+                this.notiBar = notiBar;
+                this.font = font;
+                this.point = point;
+                this.color = color;
+            }
+
+            public void draw(TestShotDrawer drawer, Graphics g, DateTime time)
+            {
+                drawer.drawImage(g, notiBar, 0, 0);
+                String dtString = time.ToString("tt") + " " + time.ToString("hh:mm");
+                drawer.drawString(g, dtString, font, color, point.X, point.Y);
+            }
+
+            private Image notiBar;
+            private Font font;
+            private Point point;
+            private int color;
+        }
+
         private void init(int width, int height, DateTime date, DateTime time)
         {
             try
@@ -45,12 +69,17 @@ namespace TestShot
                 iconWeb = new Bitmap(@"img/icon_web.png");
                 button = new Bitmap(@"img/button.png");
                 adShadow = new Bitmap(@"img/shadow_1015.png");
-                notiBar = new Bitmap(@"img/noti_bar.png");
                 indicator = new Bitmap(@"img/btn_indicator.png");
+                skt = new Bitmap(@"img/noti_bar_skt.png");
+                kt = new Bitmap(@"img/noti_bar_kt.png");
+                lg = new Bitmap(@"img/noti_bar_lg.png");
+                selected = notiSkt = new NotiBar(skt, new Font("SamsungKorean", 20.5f), new Point(580, 10), unchecked((int)0xFFBCBCBC));
+                notiKt = new NotiBar(kt, new Font("SamsungKorean", 20.5f), new Point(580, 10), unchecked((int)0xFFC7C7C7));
+                notiLg = new NotiBar(lg, new Font("Droid Sans Fallback", 22.8f), new Point(558, 5), unchecked((int)0xFFDFDFDF));
             }
             catch (Exception e)
             {
-                throw new Exception(e.StackTrace + "\n이미지 리소스를 불러오는데에 실패했습니다.");
+                throw new Exception(e.StackTrace + "\n리소스를 불러오는데에 실패했습니다.");
             }
         }
 
@@ -86,6 +115,24 @@ namespace TestShot
         public void setArrowUpVisible(bool visible)
         {
             this.showArrowUp = visible;
+        }
+
+        public void setCompany(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    selected = notiSkt;
+                    break;
+                case 1:
+                    selected = notiKt;
+                    break;
+                case 2:
+                    selected = notiLg;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void draw()
@@ -133,9 +180,6 @@ namespace TestShot
                                     drawImageCenter(g, iconFacebook, 135, 1130);
                                     break;
                             }
-                            //drawImageCenter(g, )
-                            //drawString(g, "12:34", new Font("Futura Std Medium", 90), 38, 12);
-                            //drawString(g, "AM", new Font("나눔고딕", 32, FontStyle.Bold), 250, 32);
                             String dtString;
                             dtString = time.ToString("hh:mm");
                             drawString(g, dtString, new Font("Futura Std Medium", 60), 32, 62);
@@ -151,9 +195,7 @@ namespace TestShot
                                 drawStringCenter(g, "+" + rightCost, new Font("Futura Std Medium", 19), 584, 1188);
 
                             drawImage(g, indicator, 678, 982);
-                            drawImage(g, notiBar, 0, 0);
-                            dtString = time.ToString("tt") + " " + time.ToString("hh:mm");
-                            drawString(g, dtString, new Font("Droid Sans Fallback", 22.8f), unchecked((int)0xFFDFDFDF), 560, 5);
+                            selected.draw(this, g, time);
                         }
                     }
                     catch (Exception e)
@@ -260,8 +302,8 @@ namespace TestShot
         private Image iconWeb;
         private Image button;
         private Image adShadow;
-        private Image notiBar;
         private Image indicator;
-        private Image test;
+        private Image skt, kt, lg;
+        private NotiBar notiSkt, notiKt, notiLg, selected = null;
     }
 }

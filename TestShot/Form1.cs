@@ -26,12 +26,21 @@ namespace TestShot
             //target = new Bitmap(1080, 1850);
             target = new Bitmap(targetWidth, targetHeight);
             //drawer = new TestShotDrawer(1080, 1845);
-            drawer = new TestShotDrawer(720, 1280, dateTimePicker.Value, timePicker.Value);
+            drawer = new TestShotDrawer(targetWidth, targetHeight, dateTimePicker.Value, timePicker.Value);
             examplePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             setImage(@"img/adImage.png");
-            loadCompany();
             loadLeftCost();
             loadRightCost();
+            List<String> batPerSource = new List<String> {
+                "72",
+                "24",
+                "18",
+                "12",
+                "6"
+            };
+            batPerList.DataSource = batPerSource;
+            drawer.setArrowUpVisible(false);
+            iconsChanged();
             List<String> adTypeSource = new List<String> {
                 "Contents",
                 "Download",
@@ -42,10 +51,12 @@ namespace TestShot
             adTypeList.DataSource = adTypeSource;
             adTypeList.DisplayMember = "Contents";
             //adTypeList.ValueMember = "Contents";
-            drawer.setArrowUpVisible(false);
+
+            ////
+            adBulletin = drawer.getAdBulletin();
         }
 
-        private void refreshImage()
+        public void refreshImage()
         {
             drawer.draw();
             examplePictureBox.Image = drawer.getTestShot();
@@ -61,13 +72,14 @@ namespace TestShot
         }
 
         private TestShotDrawer drawer;
+        private TestShotDrawer.AdBulletin adBulletin;
         private Bitmap target;
         private Bitmap adImage;
         private String adFileName;
         private String[] adFileNames;
 
-        private const int targetWidth = 720;
-        private const int targetHeight = 1280;
+        private const int targetWidth = 1080;
+        private const int targetHeight = 1920;
 
         private void save(String fileName)
         {
@@ -88,6 +100,11 @@ namespace TestShot
             saveFileDialog.FileName = newFileName;
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                if (checkRandomIcon.Checked)
+                {
+                    iconRandomize();
+                    refreshImage();
+                }
                 save(saveFileDialog.FileName);
             }
         }
@@ -141,17 +158,6 @@ namespace TestShot
             loadRightCost();
         }
 
-        private void loadCompany()
-        {
-            if (SktRadioButton.Checked)
-                drawer.setCompany(0);
-            else if (KtRadioButton.Checked)
-                drawer.setCompany(1);
-            else
-                drawer.setCompany(2);
-            refreshImage();
-        }
-
         private void loadLeftCost()
         {
             int cost = 0;
@@ -192,6 +198,8 @@ namespace TestShot
                 DateTime time = timePicker.Value;
                 String imageName = null;
                 String resultName = null;
+                if (checkRandomIcon.Checked)
+                    iconRandomize();
                 for (int i = 0; i < adFileNames.Length; ++i)
                 {
                     imageName = adFileNames[i];
@@ -201,8 +209,10 @@ namespace TestShot
                     resultName = saveMultiFileDialog.SelectedPath + "\\Screenshot_" + date.ToString("yyyy-MM-dd") + "-" + time.ToString("hh-mm-ss") + ".png";
                     Console.WriteLine(resultName);
                     save(resultName);
-                    date = date.AddMinutes(15);
-                    time = time.AddMinutes(15);
+                    //date = date.AddMinutes(15);
+                    //time = time.AddMinutes(15);
+                    date = date.AddSeconds(20);
+                    time = time.AddSeconds(20);
                 }
             }
         }
@@ -216,19 +226,109 @@ namespace TestShot
             }
         }
 
-        private void SktRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void iconRandomize()
         {
-            loadCompany();
+            Random r = new Random();
+            int icons = 1;
+            if (checkIconSms.Checked)
+                icons |= (int)TestShotDrawer.Icons.sms;
+            if (checkIconCapture.Checked)
+                icons |= (int)TestShotDrawer.Icons.capture;
+            if (checkIconKakao.Checked)
+                icons |= (int)TestShotDrawer.Icons.kakao;
+            if (checkIconVib.Checked)
+                icons |= (int)TestShotDrawer.Icons.vib;
+            if (checkIconCashslide.Checked)
+                icons |= (int)TestShotDrawer.Icons.cashslide;
+            if (checkIconLte.Checked)
+                icons |= (int)TestShotDrawer.Icons.lte;
+            if (checkIconAntenna.Checked)
+                icons |= (int)TestShotDrawer.Icons.antenna;
+            if (checkIconBatPer.Checked)
+                icons |= (int)TestShotDrawer.Icons.batPer;
+            icons |= r.Next((int)TestShotDrawer.Icons.all + 1);
+            drawer.setShowingIcons(icons);
+            drawer.setBatPer(r.Next(batPerList.Items.Count), r.Next(2) == 1 ? true : false);
         }
 
-        private void KtRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void iconsChanged()
         {
-            loadCompany();
+            int showingIcons = 1;
+            if (checkIconSms.Checked)
+                showingIcons |= (int)TestShotDrawer.Icons.sms;
+            if (checkIconCapture.Checked)
+                showingIcons |= (int)TestShotDrawer.Icons.capture;
+            if (checkIconKakao.Checked)
+                showingIcons |= (int)TestShotDrawer.Icons.kakao;
+            if (checkIconVib.Checked)
+                showingIcons |= (int)TestShotDrawer.Icons.vib;
+            if (checkIconCashslide.Checked)
+                showingIcons |= (int)TestShotDrawer.Icons.cashslide;
+            if (checkIconLte.Checked)
+                showingIcons |= (int)TestShotDrawer.Icons.lte;
+            if (checkIconAntenna.Checked)
+                showingIcons |= (int)TestShotDrawer.Icons.antenna;
+            if (checkIconBatPer.Checked)
+                showingIcons |= (int)TestShotDrawer.Icons.batPer;
+            drawer.setShowingIcons(showingIcons);
+            drawer.setBatPer(batPerList.SelectedIndex, chargeCheck.Checked);
+            refreshImage();
         }
 
-        private void LgRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void checkIconSms_CheckedChanged(object sender, EventArgs e)
         {
-            loadCompany();
+            iconsChanged();
+        }
+
+        private void checkIconCapture_CheckedChanged(object sender, EventArgs e)
+        {
+            iconsChanged();
+        }
+
+        private void checkIconKakao_CheckedChanged(object sender, EventArgs e)
+        {
+            iconsChanged();
+        }
+
+        private void checkIconVib_CheckedChanged(object sender, EventArgs e)
+        {
+            iconsChanged();
+        }
+
+        private void checkIconLte_CheckedChanged(object sender, EventArgs e)
+        {
+            iconsChanged();
+        }
+
+        private void checkIconAntenna_CheckedChanged(object sender, EventArgs e)
+        {
+            iconsChanged();
+        }
+
+        private void checkIconBatPer_CheckedChanged(object sender, EventArgs e)
+        {
+            iconsChanged();
+        }
+
+        private void batPerList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            iconsChanged();
+        }
+
+        private void chargeCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            iconsChanged();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            int y = 0;
+        }
+
+        private void layoutFormButton_Click(object sender, EventArgs e)
+        {
+            LayoutControlForm form = new LayoutControlForm(this, drawer);
+            form.Show();
         }
     }
 }

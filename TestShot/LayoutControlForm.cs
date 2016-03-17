@@ -23,13 +23,15 @@ namespace TestShot
         {
             List<PresetLoader.TextLayoutPreset> textPresets = PresetLoader.getTextPresets();
             put(textLayoutTime, textPresets[0]);
-            put(textLayoutAMPM, textPresets[1]);
-            put(textLayoutDate, textPresets[2]);
-            put(textLayoutDay, textPresets[3]);
-            put(textLayoutLeftCost, textPresets[4]);
-            put(textLayoutRightCost, textPresets[5]);
+            put(textLayout1_9AMPM, textPresets[1]);
+            put(textLayout10_12AMPM, textPresets[2]);
+            put(textLayoutDate, textPresets[3]);
+            put(textLayoutDay, textPresets[4]);
+            put(textLayoutLeftCost, textPresets[5]);
+            put(textLayoutRightCost, textPresets[6]);
             this.textLayoutTime.OnChange = new EventHandler(this.textLayoutTime_OnChange);
-            this.textLayoutAMPM.OnChange = new EventHandler(this.textLayoutAMPM_OnChange);
+            this.textLayout1_9AMPM.OnChange = new EventHandler(this.textLayout1_9AMPM_OnChange);
+            this.textLayout10_12AMPM.OnChange = new EventHandler(this.textLayout10_12AMPM_OnChange);
             this.textLayoutDate.OnChange = new EventHandler(this.textLayoutDate_OnChange);
             this.textLayoutDay.OnChange = new EventHandler(this.textLayoutDay_OnChange);
             this.textLayoutLeftCost.OnChange = new EventHandler(this.textLayoutLeftCost_OnChange);
@@ -105,10 +107,17 @@ namespace TestShot
             form1.refreshImage();
         }
 
-        private void textLayoutAMPM_OnChange(object sender, EventArgs e)
+        private void textLayout1_9AMPM_OnChange(object sender, EventArgs e)
         {
-            Font font = getFont(textLayoutAMPM);
-            drawer.setBulletinAMPM(textLayoutAMPM.X, textLayoutAMPM.Y, font);
+            Font font = getFont(textLayout1_9AMPM);
+            drawer.setBulletin1_9AMPM(textLayout1_9AMPM.X, textLayout1_9AMPM.Y, font);
+            form1.refreshImage();
+        }
+
+        private void textLayout10_12AMPM_OnChange(object sender, EventArgs e)
+        {
+            Font font = getFont(textLayout10_12AMPM);
+            drawer.setBulletin10_12AMPM(textLayout10_12AMPM.X, textLayout10_12AMPM.Y, font);
             form1.refreshImage();
         }
 
@@ -216,11 +225,12 @@ namespace TestShot
         {
             List<PresetLoader.TextLayoutPreset> textPresets = PresetLoader.getTextPresets();
             put(textPresets[0], textLayoutTime);
-            put(textPresets[1], textLayoutAMPM);
-            put(textPresets[2], textLayoutDate);
-            put(textPresets[3], textLayoutDay);
-            put(textPresets[4], textLayoutLeftCost);
-            put(textPresets[5], textLayoutRightCost);
+            put(textPresets[1], textLayout1_9AMPM);
+            put(textPresets[2], textLayout10_12AMPM);
+            put(textPresets[3], textLayoutDate);
+            put(textPresets[4], textLayoutDay);
+            put(textPresets[5], textLayoutLeftCost);
+            put(textPresets[6], textLayoutRightCost);
 
             List<PresetLoader.ImageLayoutPreset> imagePresets = PresetLoader.getImagePresets();
             put(imagePresets[0], imageLayoutAdImage);

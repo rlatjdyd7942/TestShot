@@ -167,6 +167,7 @@ namespace TestShot
                     this.text = text;
                     this.color = color;
                     this.center = false;
+                    this.visible = true;
                 }
                 public BulletinText(int x, int y, Font font, string text, bool center, int color = 0xFFFFFF)
                 {
@@ -176,6 +177,7 @@ namespace TestShot
                     this.text = text;
                     this.color = color;
                     this.center = center;
+                    this.visible = true;
                 }
                 public void setCoord(int x, int y)
                 {
@@ -192,11 +194,18 @@ namespace TestShot
                 }
                 public void draw(Graphics g)
                 {
-                    StringFormat format = new StringFormat();
-                    if (center)
-                        Drawer.drawStringCenter(g, text, font, x, y);
-                    else
-                        Drawer.drawString(g, text, font, x, y);
+                    if (visible)
+                    {
+                        StringFormat format = new StringFormat();
+                        if (center)
+                            Drawer.drawStringCenter(g, text, font, x, y);
+                        else
+                            Drawer.drawString(g, text, font, x, y);
+                    }
+                }
+                public void setVisibility(bool visible)
+                {
+                    this.visible = visible;
                 }
 
                 private int x, y;
@@ -204,6 +213,7 @@ namespace TestShot
                 private string text;
                 private bool center;
                 private int color;
+                private bool visible;
             }
             public class BulletinImage
             {
@@ -316,7 +326,6 @@ namespace TestShot
                 iconDownload = new Bitmap(@"img/icon_download.png");
                 iconFacebook = new Bitmap(@"img/icon_facebook.png");
                 iconUnlock = new Bitmap(@"img/icon_unlock.png");
-                iconVideo = new Bitmap(@"img/icon_video.png");
                 iconWeb = new Bitmap(@"img/icon_web.png");
                 button = new Bitmap(@"img/button.png");
                 adShadow = new Bitmap(@"img/shadow_1015.png");
@@ -385,31 +394,35 @@ namespace TestShot
                 bulletinTime = new AdBulletin.BulletinText(
                     textPresets[0].x, textPresets[0].y, new Font(textPresets[0].fontName, textPresets[0].fontSize), dtString);
                 dtString = time.ToString("tt", new CultureInfo("en-US"));
+                //if (Int32.Parse(time.ToString("hh")) < 10)
+                bulletin1_9AMPM = new AdBulletin.BulletinText(
+                    textPresets[1].x, textPresets[1].y, new Font(textPresets[1].fontName, textPresets[1].fontSize), dtString);
+                bulletin10_12AMPM = new AdBulletin.BulletinText(
+                    textPresets[2].x, textPresets[2].y, new Font(textPresets[2].fontName, textPresets[2].fontSize), dtString);
                 if (Int32.Parse(time.ToString("hh")) < 10)
-                    bulletinAMPM = new AdBulletin.BulletinText(
-                        textPresets[1].x, textPresets[1].y, new Font(textPresets[1].fontName, textPresets[1].fontSize), dtString);
+                    bulletin10_12AMPM.setVisibility(false);
                 else
-                    bulletinAMPM = new AdBulletin.BulletinText(
-                        textPresets[1].x, textPresets[1].y, new Font(textPresets[1].fontName, textPresets[1].fontSize), dtString);
-                //dtString = date.Month + "." + date.Day;
-                dtString = date.ToString("MM.dd");
+                    bulletin1_9AMPM.setVisibility(false);
+                    //dtString = date.Month + "." + date.Day;
+                    dtString = date.ToString("MM.dd");
                 if (date.Month < 10)
                     bulletinDate = new AdBulletin.BulletinText(
-                        textPresets[2].x, textPresets[2].y, new Font(textPresets[2].fontName, textPresets[2].fontSize), dtString);
+                        textPresets[3].x, textPresets[3].y, new Font(textPresets[3].fontName, textPresets[3].fontSize), dtString);
                 else
                     bulletinDate = new AdBulletin.BulletinText(
-                        textPresets[2].x, textPresets[2].y, new Font(textPresets[2].fontName, textPresets[2].fontSize), dtString);
+                        textPresets[3].x, textPresets[3].y, new Font(textPresets[3].fontName, textPresets[3].fontSize), dtString);
                 dtString = "(" + date.ToString("ddd") + ")";
                 bulletinDay = new AdBulletin.BulletinText(
-                    textPresets[3].x, textPresets[3].y, new Font(textPresets[3].fontName, textPresets[3].fontSize), dtString);
-                if (leftCost > 0)
-                        bulletinLeftCost = new AdBulletin.BulletinText(
-                    textPresets[4].x, textPresets[4].y, new Font(textPresets[4].fontName, textPresets[4].fontSize), "+" + leftCost, true);
-                if (rightCost > 0)
-                    bulletinRightCost = new AdBulletin.BulletinText(
-                        textPresets[5].x, textPresets[5].y, new Font(textPresets[5].fontName, textPresets[5].fontSize), "+" + rightCost, true);
+                    textPresets[4].x, textPresets[4].y, new Font(textPresets[4].fontName, textPresets[4].fontSize), dtString);
+                //if (leftCost > 0)
+                bulletinLeftCost = new AdBulletin.BulletinText(
+                    textPresets[5].x, textPresets[5].y, new Font(textPresets[5].fontName, textPresets[5].fontSize), "+" + leftCost, true);
+                //if (rightCost > 0)
+                bulletinRightCost = new AdBulletin.BulletinText(
+                    textPresets[6].x, textPresets[6].y, new Font(textPresets[6].fontName, textPresets[6].fontSize), "+" + rightCost, true);
                 adBulletin.addText(bulletinTime);
-                adBulletin.addText(bulletinAMPM);
+                adBulletin.addText(bulletin1_9AMPM);
+                adBulletin.addText(bulletin10_12AMPM);
                 adBulletin.addText(bulletinDate);
                 adBulletin.addText(bulletinDay);
                 adBulletin.addText(bulletinLeftCost);
@@ -443,20 +456,36 @@ namespace TestShot
             this.time = time;
             String dtString = time.ToString("h:mm");
             bulletinTime.setText(dtString);
+            if (Int32.Parse(time.ToString("hh")) < 10)
+            {
+                bulletin10_12AMPM.setVisibility(false);
+                bulletin1_9AMPM.setVisibility(true);
+            }
+            else
+            {
+                bulletin10_12AMPM.setVisibility(true);
+                bulletin1_9AMPM.setVisibility(false);
+            }
         }
 
         public void setLeftCost(int lCost)
         {
             leftCost = lCost;
             String dtString = "+" + lCost;
-            bulletinLeftCost.setText(dtString);
+            if (leftCost != 0)
+                bulletinLeftCost.setText(dtString);
+            else
+                bulletinLeftCost.setText("");
         }
 
         public void setRightCost(int rCost)
         {
             rightCost = rCost;
             String dtString = "+" + rCost;
-            bulletinRightCost.setText(dtString);
+            if (rightCost != 0)
+                bulletinRightCost.setText(dtString);
+            else
+                bulletinRightCost.setText("");
         }
 
         public void setAdType(int adType)
@@ -472,9 +501,6 @@ namespace TestShot
                     break;
                 case (int)AdType.Web:
                     bulletinActiveIcon.setImage(iconWeb);
-                    break;
-                case (int)AdType.Video:
-                    bulletinActiveIcon.setImage(iconVideo);
                     break;
                 case (int)AdType.Facebook:
                     bulletinActiveIcon.setImage(iconFacebook);
@@ -502,59 +528,6 @@ namespace TestShot
                             throw new Exception("adImage 가 null 입니다");
                         else
                         {
-                            /*
-                            Drawer.drawImage(g, bg, 0, 50);
-                            Drawer.drawImage(g, adImage, 47, 163, 626, 1069);
-                            Drawer.drawImage(g, adShadow, 41, 157);
-                            Drawer.drawImage(g, gradientBar, 47, 1011);
-                            //drawImage(adShadow, 41, 107);
-                            //drawImage(g, adShadow, 600, 1100);
-                            //drawImage(g, test, 0, 0);
-                            if (showArrowUp)
-                                Drawer.drawImageCenter(g, arrowUp, 360, 139);
-                            Drawer.drawImageCenter(g, arrowDown, 360, 1257);
-                            Drawer.drawImageCenter(g, button, 360, 1130);
-                            Drawer.drawImageCenter(g, iconUnlock, 584, 1130);
-                            switch (adType)
-                            {
-                                case (int)AdType.Contents:
-                                    Drawer.drawImageCenter(g, iconContents, 135, 1130);
-                                    break;
-                                case (int)AdType.Download:
-                                    Drawer.drawImageCenter(g, iconDownload, 135, 1130);
-                                    break;
-                                case (int)AdType.Web:
-                                    Drawer.drawImageCenter(g, iconWeb, 135, 1130);
-                                    break;
-                                case (int)AdType.Video:
-                                    Drawer.drawImageCenter(g, iconVideo, 135, 1130);
-                                    break;
-                                case (int)AdType.Facebook:
-                                    Drawer.drawImageCenter(g, iconFacebook, 135, 1130);
-                                    break;
-                            }
-                            String dtString;
-                            dtString = time.ToString("h:mm");
-                            Drawer.drawString(g, dtString, new Font("Futura Std Medium", 60), 32, 62);
-                            dtString = time.ToString("tt", new CultureInfo("en-US"));
-                            if (Int32.Parse(time.ToString("hh")) < 10)
-                                Drawer.drawString(g, dtString, new Font("나눔고딕 ExtraBold", 23), 220, 82);
-                            else
-                                Drawer.drawString(g, dtString, new Font("나눔고딕 ExtraBold", 23), 265, 82);
-                            dtString = date.Month + "." + date.Day;
-                            if (date.Month < 10)
-                                Drawer.drawString(g, dtString, new Font("Futura Std Medium", 25), 500, 82);
-                            else
-                                Drawer.drawString(g, dtString, new Font("Futura Std Medium", 25), 480, 82);
-                            dtString = date.ToString("ddd") + "요일";
-                            Drawer.drawString(g, dtString, new Font("나눔고딕 ExtraBold", 22.5f), 576, 85);
-                            if (leftCost > 0)
-                                Drawer.drawStringCenter(g, "+" + leftCost, new Font("Futura Std Medium", 19), 135, 1188);
-                            if (rightCost > 0)
-                                Drawer.drawStringCenter(g, "+" + rightCost, new Font("Futura Std Medium", 19), 584, 1188);
-
-                            Drawer.drawImage(g, indicator, 678, 982);
-                            //selected.draw(g, time);*/
                             adBulletin.draw(g);
                             notiBarSkt.draw(g, showingIcons, batIndex, batCharge, time);
                         }
@@ -594,10 +567,16 @@ namespace TestShot
             bulletinTime.setFont(font);
         }
 
-        public void setBulletinAMPM(int x, int y, Font font)
+        public void setBulletin1_9AMPM(int x, int y, Font font)
         {
-            bulletinAMPM.setCoord(x, y);
-            bulletinAMPM.setFont(font);
+            bulletin1_9AMPM.setCoord(x, y);
+            bulletin1_9AMPM.setFont(font);
+        }
+
+        public void setBulletin10_12AMPM(int x, int y, Font font)
+        {
+            bulletin10_12AMPM.setCoord(x, y);
+            bulletin10_12AMPM.setFont(font);
         }
 
         public void setBulletinDate(int x, int y, Font font)
@@ -683,7 +662,6 @@ namespace TestShot
             Contents = 0,
             Download,
             Web,
-            Video,
             Facebook,
         };
 
@@ -708,7 +686,6 @@ namespace TestShot
         private Image iconDownload;
         private Image iconFacebook;
         private Image iconUnlock;
-        private Image iconVideo;
         private Image iconWeb;
         private Image button;
         private Image adShadow;
@@ -725,11 +702,12 @@ namespace TestShot
         private AdBulletin.BulletinText bulletinDate;
         private AdBulletin.BulletinText bulletinDay;
         private AdBulletin.BulletinText bulletinTime;
-        private AdBulletin.BulletinText bulletinAMPM;
+        private AdBulletin.BulletinText bulletin1_9AMPM;
+        private AdBulletin.BulletinText bulletin10_12AMPM;
         private AdBulletin.BulletinText bulletinLeftCost;
         private AdBulletin.BulletinText bulletinRightCost;
 
-        public static readonly int TextNum = 6;
+        public static readonly int TextNum = 7;
         public static readonly int ImageNum = 9;
 
         private NotiBarForm notiBarSkt;
@@ -758,8 +736,6 @@ namespace TestShot
         private Image notiAntenna;
         private Image notiCapture;
         private Image notiCashslide;
-
-        private PrivateFontCollection fontCollection;
 
         public enum Icons
         {

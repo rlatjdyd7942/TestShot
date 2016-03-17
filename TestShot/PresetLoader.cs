@@ -40,7 +40,7 @@ namespace TestShot
                     textPreset.x = Int32.Parse(splited[1].Replace("\"", ""));
                     textPreset.y = Int32.Parse(splited[2].Replace("\"", ""));
                     textPreset.fontName = splited[3].Replace("\"", "");
-                    textPreset.fontSize = Int32.Parse(splited[4].Replace("\"", ""));
+                    textPreset.fontSize = float.Parse(splited[4].Replace("\"", ""));
                     textPresets.Add(textPreset);
                 }
                 imagePresets = new List<ImageLayoutPreset>();

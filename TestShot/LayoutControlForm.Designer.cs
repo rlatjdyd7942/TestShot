@@ -44,9 +44,10 @@
             this.textLayoutLeftCost = new TestShot.TestShotTextLayoutControl();
             this.textLayoutDay = new TestShot.TestShotTextLayoutControl();
             this.textLayoutDate = new TestShot.TestShotTextLayoutControl();
-            this.textLayoutAMPM = new TestShot.TestShotTextLayoutControl();
+            this.textLayout1_9AMPM = new TestShot.TestShotTextLayoutControl();
             this.textLayoutTime = new TestShot.TestShotTextLayoutControl();
             this.presetSaveButton = new System.Windows.Forms.Button();
+            this.textLayout10_12AMPM = new TestShot.TestShotTextLayoutControl();
             this.tabControl.SuspendLayout();
             this.imagePage.SuspendLayout();
             this.textPage.SuspendLayout();
@@ -195,11 +196,12 @@
             // textPage
             // 
             this.textPage.AutoScroll = true;
+            this.textPage.Controls.Add(this.textLayout10_12AMPM);
             this.textPage.Controls.Add(this.textLayoutRightCost);
             this.textPage.Controls.Add(this.textLayoutLeftCost);
             this.textPage.Controls.Add(this.textLayoutDay);
             this.textPage.Controls.Add(this.textLayoutDate);
-            this.textPage.Controls.Add(this.textLayoutAMPM);
+            this.textPage.Controls.Add(this.textLayout1_9AMPM);
             this.textPage.Controls.Add(this.textLayoutTime);
             this.textPage.Location = new System.Drawing.Point(4, 22);
             this.textPage.Name = "textPage";
@@ -211,7 +213,9 @@
             // 
             // textLayoutRightCost
             // 
-            this.textLayoutRightCost.Location = new System.Drawing.Point(384, 172);
+            this.textLayoutRightCost.FontName = null;
+            this.textLayoutRightCost.FontSize = 0F;
+            this.textLayoutRightCost.Location = new System.Drawing.Point(8, 336);
             this.textLayoutRightCost.Name = "textLayoutRightCost";
             this.textLayoutRightCost.Size = new System.Drawing.Size(182, 160);
             this.textLayoutRightCost.TabIndex = 6;
@@ -221,7 +225,9 @@
             // 
             // textLayoutLeftCost
             // 
-            this.textLayoutLeftCost.Location = new System.Drawing.Point(196, 172);
+            this.textLayoutLeftCost.FontName = null;
+            this.textLayoutLeftCost.FontSize = 0F;
+            this.textLayoutLeftCost.Location = new System.Drawing.Point(384, 172);
             this.textLayoutLeftCost.Name = "textLayoutLeftCost";
             this.textLayoutLeftCost.Size = new System.Drawing.Size(182, 160);
             this.textLayoutLeftCost.TabIndex = 3;
@@ -231,7 +237,9 @@
             // 
             // textLayoutDay
             // 
-            this.textLayoutDay.Location = new System.Drawing.Point(8, 172);
+            this.textLayoutDay.FontName = null;
+            this.textLayoutDay.FontSize = 0F;
+            this.textLayoutDay.Location = new System.Drawing.Point(196, 172);
             this.textLayoutDay.Name = "textLayoutDay";
             this.textLayoutDay.Size = new System.Drawing.Size(182, 160);
             this.textLayoutDay.TabIndex = 5;
@@ -241,7 +249,9 @@
             // 
             // textLayoutDate
             // 
-            this.textLayoutDate.Location = new System.Drawing.Point(384, 6);
+            this.textLayoutDate.FontName = null;
+            this.textLayoutDate.FontSize = 0F;
+            this.textLayoutDate.Location = new System.Drawing.Point(8, 172);
             this.textLayoutDate.Name = "textLayoutDate";
             this.textLayoutDate.Size = new System.Drawing.Size(182, 160);
             this.textLayoutDate.TabIndex = 4;
@@ -249,18 +259,22 @@
             this.textLayoutDate.X = 0;
             this.textLayoutDate.Y = 0;
             // 
-            // textLayoutAMPM
+            // textLayout1_9AMPM
             // 
-            this.textLayoutAMPM.Location = new System.Drawing.Point(196, 6);
-            this.textLayoutAMPM.Name = "textLayoutAMPM";
-            this.textLayoutAMPM.Size = new System.Drawing.Size(182, 160);
-            this.textLayoutAMPM.TabIndex = 2;
-            this.textLayoutAMPM.Text = "AMPM";
-            this.textLayoutAMPM.X = 0;
-            this.textLayoutAMPM.Y = 0;
+            this.textLayout1_9AMPM.FontName = null;
+            this.textLayout1_9AMPM.FontSize = 0F;
+            this.textLayout1_9AMPM.Location = new System.Drawing.Point(196, 6);
+            this.textLayout1_9AMPM.Name = "textLayout1_9AMPM";
+            this.textLayout1_9AMPM.Size = new System.Drawing.Size(182, 160);
+            this.textLayout1_9AMPM.TabIndex = 2;
+            this.textLayout1_9AMPM.Text = "1-9AMPM";
+            this.textLayout1_9AMPM.X = 0;
+            this.textLayout1_9AMPM.Y = 0;
             // 
             // textLayoutTime
             // 
+            this.textLayoutTime.FontName = null;
+            this.textLayoutTime.FontSize = 0F;
             this.textLayoutTime.Location = new System.Drawing.Point(8, 6);
             this.textLayoutTime.Name = "textLayoutTime";
             this.textLayoutTime.Size = new System.Drawing.Size(182, 160);
@@ -279,6 +293,18 @@
             this.presetSaveButton.Text = "프리셋 저장";
             this.presetSaveButton.UseVisualStyleBackColor = true;
             this.presetSaveButton.Click += new System.EventHandler(this.presetSaveButton_Click);
+            // 
+            // textLayout10_12AMPM
+            // 
+            this.textLayout10_12AMPM.FontName = null;
+            this.textLayout10_12AMPM.FontSize = 0F;
+            this.textLayout10_12AMPM.Location = new System.Drawing.Point(384, 6);
+            this.textLayout10_12AMPM.Name = "textLayout10_12AMPM";
+            this.textLayout10_12AMPM.Size = new System.Drawing.Size(182, 160);
+            this.textLayout10_12AMPM.TabIndex = 7;
+            this.textLayout10_12AMPM.Text = "10-12AMPM";
+            this.textLayout10_12AMPM.X = 0;
+            this.textLayout10_12AMPM.Y = 0;
             // 
             // LayoutControlForm
             // 
@@ -303,7 +329,7 @@
         private System.Windows.Forms.TabPage textPage;
         private TestShotTextLayoutControl textLayoutDay;
         private TestShotTextLayoutControl textLayoutDate;
-        private TestShotTextLayoutControl textLayoutAMPM;
+        private TestShotTextLayoutControl textLayout1_9AMPM;
         private TestShotTextLayoutControl textLayoutTime;
         private TestShotTextLayoutControl textLayoutRightCost;
         private TestShotTextLayoutControl textLayoutLeftCost;
@@ -317,5 +343,6 @@
         private TestShotImageLayoutControl imageLayoutArrowDown;
         private TestShotImageLayoutControl imageLayoutArrowUp;
         private System.Windows.Forms.Button presetSaveButton;
+        private TestShotTextLayoutControl textLayout10_12AMPM;
     }
 }

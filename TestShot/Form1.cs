@@ -45,7 +45,6 @@ namespace TestShot
                 "Contents",
                 "Download",
                 "Web",
-                "Video",
                 "Facebook"
             };
             adTypeList.DataSource = adTypeSource;
@@ -322,7 +321,7 @@ namespace TestShot
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            int y = 0;
+
         }
 
         private void layoutFormButton_Click(object sender, EventArgs e)
